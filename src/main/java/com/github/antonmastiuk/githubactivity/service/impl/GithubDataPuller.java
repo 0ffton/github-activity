@@ -17,8 +17,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class GithubDataPuller implements DataPuller<Activity> {
-    @Value("main.url")
-    private String url;
 
     public List<Activity> pullData(String url) throws IOException {
         Document doc = Jsoup.connect(url).get();
