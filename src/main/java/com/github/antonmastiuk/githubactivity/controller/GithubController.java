@@ -22,6 +22,7 @@ public class GithubController {
     private DataPuller<Activity> dataPuller;
 
     //    todo: add thread safety
+// TODO: 8/10/20 test todo
     private SseEmitter sseEmitter;
 
     public GithubController(DataPuller dataPuller) {
