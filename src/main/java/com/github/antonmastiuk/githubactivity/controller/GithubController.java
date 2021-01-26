@@ -1,6 +1,6 @@
 package com.github.antonmastiuk.githubactivity.controller;
 
-import com.github.antonmastiuk.githubactivity.model.Activity;
+import com.github.antonmastiuk.githubactivity.json.response.ContributionDay;
 import com.github.antonmastiuk.githubactivity.service.DataPuller;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -19,13 +18,11 @@ public class GithubController {
     @Value("${main.url}")
     private String url;
 
-    private DataPuller<Activity> dataPuller;
-
-    //    todo: add thread safety
+    private DataPuller<ContributionDay> graphQLGithubDataPuller;
     private SseEmitter sseEmitter;
 
-    public GithubController(DataPuller dataPuller) {
-        this.dataPuller = dataPuller;
+    public GithubController(DataPuller<ContributionDay> graphQLGithubDataPuller) {
+        this.graphQLGithubDataPuller = graphQLGithubDataPuller;
     }
 
     @PostMapping("/payload")
@@ -49,7 +46,7 @@ public class GithubController {
     }
 
     private void getDataAndSend() throws IOException {
-        List<Activity> activities = dataPuller.pullData(url);
+        List<ContributionDay> activities = graphQLGithubDataPuller.pullData(url);
         sseEmitter.send(activities);
     }
 

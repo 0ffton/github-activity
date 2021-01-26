@@ -1,2 +1,3 @@
 main:
-  url: https://github.com/users/AntonMastiuk/contributions
+  url: https://api.github.com/graphql
+  graphQLQuery: query {viewer{contributionsCollection {contributionCalendar {isHalloween totalContributions weeks { contributionDays { contributionCount date color}}}}}}
